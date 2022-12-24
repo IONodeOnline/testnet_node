@@ -2,15 +2,20 @@ Installation
 
 Setting up your validator node has never been so easy. Get your validator running in minutes by following step by step instructions.
 
+
 Chain ID: haqq_54211-3 | Latest Version Tag: v1.3.0 | Custom Port: 35
 
 Setup validator name
-Replace YOUR_MONIKER_GOES_HERE with your validator name
-MONIKER="YOUR_MONIKER_GOES_HERE"
+
+                  Replace YOUR_MONIKER_GOES_HERE with your validator name
+
+                  MONIKER="YOUR_MONIKER_GOES_HERE"
 Install dependencies
+
 Update system and install build tools
-sudo apt update
-sudo apt install curl git jq lz4 build-essential -y
+
+                  sudo apt update
+                  sudo apt install curl git jq lz4 build-essential -y
 Install GO
 sudo rm -rf /usr/local/go
 sudo curl -Ls https://golang.org/dl/go1.19.4.linux-amd64.tar.gz | sudo tar -C /usr/local -xz
