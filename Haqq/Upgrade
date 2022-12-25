@@ -1,5 +1,7 @@
 Upgrade
 
+![image](https://user-images.githubusercontent.com/91251550/209468717-42a6784d-4182-4426-9da0-b1529aa2da05.png)
+
 Prepare for and the upcomming chain upgrade using Cosmovisor.
 
 Chain ID: haqq_54211-3 | Latest Version Tag: v1.3.0 | Custom Port: 35
