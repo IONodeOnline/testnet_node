@@ -1,5 +1,7 @@
 Installation
 
+![image](https://user-images.githubusercontent.com/91251550/209468645-8ea83f2b-a29a-479e-b7e4-952141b057be.png)
+
 Setting up your validator node has never been so easy. Get your validator running in minutes by following step by step instructions.
 
 Chain ID: haqq_54211-3 | Latest Version Tag: v1.3.0 | Custom Port: 35
