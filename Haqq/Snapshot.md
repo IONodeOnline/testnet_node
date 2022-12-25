@@ -1,5 +1,7 @@
 Snapshot
 
+![image](https://user-images.githubusercontent.com/91251550/209468673-f60ed7c9-d9ea-4ce7-ab12-1ea2f490a79a.png)
+
 Catch the latest block faster by using our daily snapshots
 .
 Snapshots allows a new node to join the network by recovering application state from a backup file. Snapshot contains compressed copy of chain data directory. To keep backup files as small as plausible, snapshot server is periodically beeing state-synced.
