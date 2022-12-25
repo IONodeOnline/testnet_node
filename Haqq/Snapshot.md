@@ -9,22 +9,25 @@ Snapshots allows a new node to join the network by recovering application state 
 Snapshots are taken automatically each day at 08:30 UTC
 pruning: 100/0/19 | indexer: null | version tag: v1.3.0
 
-       BLOCK               AGE              DOWNLOAD   
-       1524295             4 hours ago      https://snapshots.kjnodes.com/haqq-testnet/snapshot_latest.tar.lz4
+ BLOCK               AGE              DOWNLOAD   
+ 1524295             4 hours ago      https://snapshots.kjnodes.com/haqq-testnet/snapshot_latest.tar.lz4
 ​​
 Instructions
 
 Stop the service and reset the data
 
-               sudo systemctl stop haqqd
-               cp $HOME/.haqqd/data/priv_validator_state.json $HOME/.haqqd/priv_validator_state.json.backup
-               rm -rf $HOME/.haqqd/data
+         sudo systemctl stop haqqd
+         
+         cp $HOME/.haqqd/data/priv_validator_state.json $HOME/.haqqd/priv_validator_state.json.backup
+
+         rm -rf $HOME/.haqqd/data
                
 Download latest snapshot
 
-               curl -L https://snapshots.kjnodes.com/haqq-testnet/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.haqqd
-               mv $HOME/.haqqd/priv_validator_state.json.backup $HOME/.haqqd/data/priv_validator_state.json
+          curl -L https://snapshots.kjnodes.com/haqq-testnet/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.haqqd
+           
+          mv $HOME/.haqqd/priv_validator_state.json.backup $HOME/.haqqd/data/priv_validator_state.json
                
 Restart the service and check the log
 
-               sudo systemctl start haqqd && journalctl -u haqqd -f --no-hostname -o cat
+             sudo systemctl start haqqd && journalctl -u haqqd -f --no-hostname -o cat
