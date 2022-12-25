@@ -1,5 +1,7 @@
 State sync
 
+![image](https://user-images.githubusercontent.com/91251550/209468693-86c78528-fa81-4142-96c1-5043d2e31fa9.png)
+
 With our state sync services you will be able to catch up latest chain block in matter of minutes
 
 State Sync allows a new node to join the network by fetching a snapshot of the application state at a recent height instead of fetching and replaying all historical blocks. Since the application state is generally much smaller than the blocks, and restoring it is much faster than replaying blocks, this can reduce the time to sync with the network from days to minutes.
