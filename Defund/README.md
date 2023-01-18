@@ -1,4 +1,5 @@
 Defund
+https://defund.explorers.guru/validator/defundvaloper1al9s8axa2rk936uw3n87ksx5u9nxuzsd455zsr
 
 ![image](https://user-images.githubusercontent.com/91251550/213079218-42f9ae40-b984-4c79-80bb-48e49b05b963.png)
 
@@ -6,13 +7,6 @@ DeFund is an L1 blockchain built for building decentralized permissionless, on-c
 
 Chain ID: defund-private-4 | Latest Version Tag: v0.2.2 | Wasm: OFF
 
-​Website |Discord  |Twitter ​
-
-Public endpoints
-
-api: https://defund-testnet.api.kjnodes.com/​
-rpc: https://defund-testnet.rpc.kjnodes.com/​
-grpc: https://defund-testnet.grpc.kjnodes.com/​
 
 Peering
 
