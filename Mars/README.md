@@ -1,4 +1,5 @@
 Mars
+https://mars.explorers.guru/validator/marsvaloper12lgyz6v5d2ag5zmhuc05duruu4782tj3nhzkks
 
 ![image](https://user-images.githubusercontent.com/91251550/213085274-f8cad243-4bc3-4960-80e4-d7f3d2dfe53d.png)
 
@@ -7,12 +8,6 @@ Mars is a credit protocol for the future: non-custodial, open-source, transparen
 Chain ID: ares-1 | Latest Version Tag: v1.0.0-rc7 | Wasm: ON
 
 ​Website | Discord |Twitter ​
-
-Public endpoints
-
-api:https://mars-testnet.api.kjnodes.com/ ​
-rpc:https://mars-testnet.rpc.kjnodes.com/ ​
-grpc:https://mars-testnet.grpc.kjnodes.com/ ​
 
 Peering
 
