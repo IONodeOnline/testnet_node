@@ -1,0 +1,26 @@
+====https://docs.namada.net/networks/testnets/testnet-history
+Chain ID: public-testnet-14.5d79b6958580
+====https://github.com/anoma/namada/releases/tag/v0.23.2
+Latest Version Tag: v0.23.2
+=============================================================
+systemctl stop namada.service
+
+# Download CometBFT
+curl -sL https://github.com/cometbft/cometbft/releases/download/v0.37.2/cometbft_0.37.2_linux_amd64.tar.gz | tar -C $HOME/.local/bin -xzf- cometbft
+
+# Update Rust
+rustup update
+
+# Update system
+sudo apt -q update
+sudo apt -qy upgrade
+
+# Build Namada
+cd $HOME
+rm -rf public-testnet-14.5d79b6958580
+git clone -b v0.23.2 https://github.com/anoma/namada.git public-testnet-14.5d79b6958580
+cd public-testnet-14.5d79b6958580
+make build-release
+for BIN in namada namadac namadan namadar namadaw; do install -m 0755 target/release/$BIN $HOME/.local/bin/$BIN; done
+
+systemctl start namada.service
