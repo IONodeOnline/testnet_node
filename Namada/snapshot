@@ -1,0 +1,11 @@
+==========restore snapshot Namada===============
+sudo systemctl stop  namada.service
+cp $HOME/.local/share/namada/public-testnet-14.5d79b6958580/cometbft/data/priv_validator_state.json /home/$HOME
+cd $HOME/.local/share/namada
+wget https://snapshot.brightlystake.com/namada_14.5_231102.tar.lz4
+tar -I lz4cat -xvf namada_14.5_231102.tar.lz4
+mv db public-testnet-14.5d79b6958580/
+mv cometbft public-testnet-14.5d79b6958580/
+cp $HOME/priv_validator_state.json $HOME/.local/share/namada/public-testnet-14.5d79b6958580/cometbft/data/
+sudo systemctl restart  namadad
+sudo  journalctl -u  namadad -f --output cat
