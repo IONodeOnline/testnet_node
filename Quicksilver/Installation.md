@@ -4,15 +4,10 @@ Setting up your validator node has never been so easy. Get your validator runnin
 
 ![image](https://user-images.githubusercontent.com/91251550/210759562-70a2089a-2df2-4b67-b2b1-650eb06df4b2.png)
 
-Chain ID: quicksilver-2 | Latest Version Tag: v1.2.0 | Custom Port: 11
+|   Chain ID	 | Latest Version Tag| Custom Port|
+|--------------|-------------------|------------|
+| rhye-1   |      v1.4.4-rc.3      |     110    |
 
-Setup validator name
-
-Replace YOUR_MONIKER_GOES_HERE with your validator name
-
-      MONIKER="YOUR_MONIKER_GOES_HERE"
-
-Install dependencies
 
 1 Update system and install build tools
 
@@ -35,18 +30,19 @@ Install dependencies
       rm -rf quicksilver
       git clone https://github.com/ingenuity-build/quicksilver.git
       cd quicksilver
+      git checkout v1.4.4-rc.3
+      make build
       ​
       # Build binaries
-      git checkout v1.2.0
-      make build
-      mkdir -p $HOME/.quicksilverd/cosmovisor/genesis/bin
-      mv build/quicksilverd $HOME/.quicksilverd/cosmovisor/genesis/bin/
-      rm -rf build
+      sudo rm -rf /usr/local/go
+      curl -Ls https://go.dev/dl/go1.20.12.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
+      eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
+      eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
       
 4 Install Cosmovisor and create a service
 
       # Download and install Cosmovisor
-      go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
+      go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
       ​
       # Create service
       sudo tee /etc/systemd/system/quicksilverd.service > /dev/null << EOF
@@ -75,37 +71,100 @@ Install dependencies
 5 Initialize the node
 
       # Set node configuration
-      quicksilverd config chain-id quicksilver-2
-      quicksilverd config keyring-backend file
-      quicksilverd config node tcp://localhost:11657
+      quicksilverd config chain-id rhye-1
+      quicksilverd config keyring-backend test
+      quicksilverd config node tcp://localhost:11057
       ​
       # Initialize the node
-      quicksilverd init $MONIKER --chain-id quicksilver-2
+      MONIKER="YOUR_MONIKER_GOES_HERE"
+      quicksilverd init $MONIKER --chain-id rhye-1
       ​
       # Download genesis and addrbook
-      curl -Ls https://snapshots.kjnodes.com/quicksilver/genesis.json > $HOME/.quicksilverd/config/genesis.json
-      curl -Ls https://snapshots.kjnodes.com/quicksilver/addrbook.json > $HOME/.quicksilverd/config/addrbook.json
-      ​
-      # Add seeds
-      sed -i -e "s|^seeds *=.*|seeds = \"3f472746f46493309650e5a033076689996c8881@quicksilver.rpc.kjnodes.com:11659\"|" $HOME/.quicksilverd/config/config.toml
+      curl -Ls https://snapshots.kjnodes.com/quicksilver-testnet/genesis.json > $HOME/.quicksilverd/config/genesis.json
+      curl -Ls https://snapshots.kjnodes.com/quicksilver-testnet/addrbook.json > $HOME/.quicksilverd/config/addrbook.json
       ​
       # Set minimum gas price
       sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0.0001uqck\"|" $HOME/.quicksilverd/config/app.toml
-      ​
+      ​# Disable indexer
+      sed -i -e 's|^indexer *=.*|indexer = "null"|' $HOME/.quicksilverd/config/config.toml
       # Set pruning
-      sed -i -e "s|^pruning *=.*|pruning = \"custom\"|" $HOME/.quicksilverd/config/app.toml
-      sed -i -e "s|^pruning-keep-recent *=.*|pruning-keep-recent = \"100\"|" $HOME/.quicksilverd/config/app.toml
-      sed -i -e "s|^pruning-keep-every *=.*|pruning-keep-every = \"0\"|" $HOME/.quicksilverd/config/app.toml
-      sed -i -e "s|^pruning-interval *=.*|pruning-interval = \"19\"|" $HOME/.quicksilverd/config/app.toml
+      sed -i \
+        -e 's|^pruning *=.*|pruning = "custom"|' \
+        -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|' \
+        -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
+        -e 's|^pruning-interval *=.*|pruning-interval = "10"|' \
+      $HOME/.quicksilverd/config/app.toml
       ​
       # Set custom ports
-      sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:11658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:11657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:11060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:11656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":11660\"%" $HOME/.quicksilverd/config/config.toml
-      sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:11317\"%; s%^address = \":8080\"%address = \":11080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:11090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:11091\"%; s%^address = \"0.0.0.0:8545\"%address = \"0.0.0.0:11545\"%; s%^ws-address = \"0.0.0.0:8546\"%ws-address = \"0.0.0.0:11546\"%" $HOME/.quicksilverd/config/app.toml
-
-6 Download latest chain snapshot
-
-      curl -L https://snapshots.kjnodes.com/quicksilver/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.quicksilverd
+     CUSTOM_PORT=110
+      sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CUSTOM_PORT}58\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr =                        \"tcp://127.0.0.1:${CUSTOM_PORT}57\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CUSTOM_PORT}60\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr =         \"tcp://0.0.0.0:${CUSTOM_PORT}56\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CUSTOM_PORT}66\"%" $HOME/.quicksilverd/config/config.toml
+      sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${CUSTOM_PORT}17\"%; s%^address = \":8080\"%address = \":${CUSTOM_PORT}80\"%; s%^address =       \"0.0.0.0:9090\"%address = \"0.0.0.0:${CUSTOM_PORT}90\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${CUSTOM_PORT}91\"%" $HOME/.quicksilverd/config/app.toml
       
-7 Start service and check the logs
+6 Start service and check the logs
 
-      sudo systemctl start quicksilverd && journalctl -u quicksilverd -f --no-hostname -o cat
+      sudo systemctl daemon-reload
+      sudo systemctl enable quicksilverd
+      sudo systemctl start quicksilverd && sudo journalctl -u quicksilverde -f --no-hostname -o cat
+      # GET SYNC INFO
+      quicksilverd status 2>&1 | jq .SyncInfo
+      curl -s localhost:${CUSTOM_PORT}/status | jq .result.sync_info
+      
+7 CREATE NEW VALIDATOR
+
+      quicksilverd tx staking create-validator \
+      --amount 1000000uqck \
+      --pubkey $(quicksilverd tendermint show-validator) \
+      --moniker "YOUR_MONIKER_NAME" \
+      --identity "YOUR_KEYBASE_ID" \
+      --details "YOUR_DETAILS" \
+      --website "YOUR_WEBSITE_URL" \
+      --chain-id rhye-1 \
+      --commission-rate 0.05 \
+      --commission-max-rate 0.20 \
+      --commission-max-change-rate 0.01 \
+      --min-self-delegation 1 \
+      --from wallet \
+      --gas-adjustment 1.4 \
+      --gas auto \
+      --gas-prices 0.0001uqck \
+      -y
+
+8 EDIT EXISTING VALIDATOR
+
+      quicksilverd tx staking edit-validator \
+      --new-moniker "YOUR_MONIKER_NAME" \
+      --identity "YOUR_KEYBASE_ID" \
+      --details "YOUR_DETAILS" \
+      --website "YOUR_WEBSITE_URL" \
+      --chain-id rhye-1 \
+      --commission-rate 0.05 \
+      --from wallet \
+      --gas-adjustment 1.4 \
+      --gas auto \
+      --gas-prices 0.0001uqck \
+      -y
+
+9. RESET CHAIN DATA
+```bash
+quicksilverd tendermint unsafe-reset-all --keep-addr-book --home $HOME/.quicksilverd --keep-addr-book
+```
+10. REMOVE NODE: Make sure you have backed up your priv_validator_key.json
+```bash
+cd $HOME
+sudo systemctl stop quicksilverd
+sudo systemctl disable quicksilverd
+sudo rm /etc/systemd/system/quicksilverd
+sudo systemctl daemon-reload
+rm -f $(which quicksilverd)
+rm -rf $HOME/.quicksilverd
+rm -rf $HOME/quicksilver
+```
+11. Token management
+```bash
+# WITHDRAW REWARDS FROM ALL VALIDATORS
+quicksilverd tx distribution withdraw-all-rewards --from wallet --chain-id rhye-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
+# WITHDRAW COMMISSION AND REWARDS FROM YOUR VALIDATOR
+quicksilverd tx distribution withdraw-rewards $(quicksilverd keys show wallet --bech val -a) --commission --from wallet --chain-id rhye-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
+# Unjail Validator
+quicksilverd tx slashing unjail --from qcknode2 --chain-id rhye-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
+```
