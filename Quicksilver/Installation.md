@@ -9,12 +9,12 @@ Setting up your validator node has never been so easy. Get your validator runnin
 | rhye-1   |      v1.4.4-rc.3      |     110    |
 
 
-1 Update system and install build tools
+## 1 Update system and install build tools
 
       sudo apt update
       sudo apt install curl git jq lz4 build-essential -y
       
-2 Install GO
+## 2 Install GO
 
       sudo rm -rf /usr/local/go
       sudo curl -Ls https://golang.org/dl/go1.19.4.linux-amd64.tar.gz | sudo tar -C /usr/local -xz
@@ -23,7 +23,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       EOF
       source $HOME/.profile
       
-3 Download and build binaries
+## 3 Download and build binaries
 
       # Clone project repository
       cd $HOME
@@ -39,7 +39,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
       eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
       
-4 Install Cosmovisor and create a service
+## 4 Install Cosmovisor and create a service
 
       # Download and install Cosmovisor
       go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
@@ -68,7 +68,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       ln -s $HOME/.quicksilverd/cosmovisor/genesis $HOME/.quicksilverd/cosmovisor/current
       sudo ln -s $HOME/.quicksilverd/cosmovisor/current/bin/quicksilverd /usr/local/bin/quicksilverd
       
-5 Initialize the node
+## 5 Initialize the node
 
       # Set node configuration
       quicksilverd config chain-id rhye-1
@@ -100,7 +100,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CUSTOM_PORT}58\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr =                        \"tcp://127.0.0.1:${CUSTOM_PORT}57\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CUSTOM_PORT}60\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr =         \"tcp://0.0.0.0:${CUSTOM_PORT}56\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CUSTOM_PORT}66\"%" $HOME/.quicksilverd/config/config.toml
       sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${CUSTOM_PORT}17\"%; s%^address = \":8080\"%address = \":${CUSTOM_PORT}80\"%; s%^address =       \"0.0.0.0:9090\"%address = \"0.0.0.0:${CUSTOM_PORT}90\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${CUSTOM_PORT}91\"%" $HOME/.quicksilverd/config/app.toml
       
-6 Start service and check the logs
+## 6 Start service and check the logs
 
       sudo systemctl daemon-reload
       sudo systemctl enable quicksilverd
@@ -109,7 +109,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       quicksilverd status 2>&1 | jq .SyncInfo
       curl -s localhost:${CUSTOM_PORT}/status | jq .result.sync_info
       
-7 CREATE NEW VALIDATOR
+## 7 CREATE NEW VALIDATOR
 
       quicksilverd tx staking create-validator \
       --amount 1000000uqck \
@@ -129,7 +129,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       --gas-prices 0.0001uqck \
       -y
 
-8 EDIT EXISTING VALIDATOR
+## 8 EDIT EXISTING VALIDATOR
 
       quicksilverd tx staking edit-validator \
       --new-moniker "YOUR_MONIKER_NAME" \
@@ -144,11 +144,11 @@ Setting up your validator node has never been so easy. Get your validator runnin
       --gas-prices 0.0001uqck \
       -y
 
-9. RESET CHAIN DATA
+## 9. RESET CHAIN DATA
 ```bash
 quicksilverd tendermint unsafe-reset-all --keep-addr-book --home $HOME/.quicksilverd --keep-addr-book
 ```
-10. REMOVE NODE: Make sure you have backed up your priv_validator_key.json
+## 10. REMOVE NODE: Make sure you have backed up your priv_validator_key.json
 ```bash
 cd $HOME
 sudo systemctl stop quicksilverd
@@ -159,7 +159,7 @@ rm -f $(which quicksilverd)
 rm -rf $HOME/.quicksilverd
 rm -rf $HOME/quicksilver
 ```
-11. Token management
+## 11. Token management
 ```bash
 # WITHDRAW REWARDS FROM ALL VALIDATORS
 quicksilverd tx distribution withdraw-all-rewards --from wallet --chain-id rhye-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
