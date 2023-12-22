@@ -3,9 +3,9 @@ Namada
 
 Namada is a privacy-for-assets centric blockchain using zero-knowledge proof technology. Namada’s cryptographical features give users asset-agnostic, interchain privacy, and is being built by the Anoma foundation.
 
-Chain ID: public-testnet-14.5d79b6958580
+Chain ID: public-testnet-15.0dacadb8d663
 
-Latest Version: v0.23.2
+Latest Version: v0.28.1
 
 Website: https://namada.net/
 
