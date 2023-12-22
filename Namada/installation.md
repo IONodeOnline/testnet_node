@@ -149,6 +149,7 @@ namada client init-validator \
  --signing-keys $WALLET \
  --commission-rate 0.1 \
  --max-commission-rate-change 0.1 \
+ --node tcp://127.0.0.1:${NAMADA_PORT}657 \
  --email $EMAIL
 ```
 ### Stake your funds
