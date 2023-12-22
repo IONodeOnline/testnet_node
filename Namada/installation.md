@@ -139,7 +139,7 @@ curl http://127.0.0.1:${NAMADA_PORT}657/status | jq .result.sync_info.catching_u
 ```
 ### Check your balance
 ```bash
-namada client balance --owner $WALLET
+namada client balance --owner $WALLET --node tcp://127.0.0.1:${NAMADA_PORT}657
 ```
 ### Init validator
 ```bash
