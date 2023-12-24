@@ -44,3 +44,7 @@ wget -O $HOME/.quicksilverd/config/genesis.json https://testnet-files.itrocket.n
 ```bash
 sudo systemctl start quicksilver.service && sudo journalctl -u quicksilver.service -f --no-hostname -o cat
 ```
+## unjail validator
+```bash
+quicksilverd tx slashing unjail --from <wallet> --chain-id rhye-2 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
+```
