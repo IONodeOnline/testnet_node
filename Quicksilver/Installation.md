@@ -6,7 +6,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
 
 |   Chain ID	 | Latest Version Tag| Custom Port|
 |--------------|-------------------|------------|
-| rhye-1   |      v1.4.4-rc.3      |     110    |
+| rhye-2   |      v1.4.5-rc.4      |     110    |
 
 
 ## 1 Update system and install build tools
@@ -30,7 +30,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       rm -rf quicksilver
       git clone https://github.com/ingenuity-build/quicksilver.git
       cd quicksilver
-      git checkout v1.4.4-rc.3
+      git checkout v1.4.5-rc.4
       make build
       ​
       # Build binaries
@@ -71,13 +71,13 @@ Setting up your validator node has never been so easy. Get your validator runnin
 ## 5 Initialize the node
 
       # Set node configuration
-      quicksilverd config chain-id rhye-1
+      quicksilverd config chain-id rhye-2
       quicksilverd config keyring-backend test
       quicksilverd config node tcp://localhost:11057
       ​
       # Initialize the node
       MONIKER="YOUR_MONIKER_GOES_HERE"
-      quicksilverd init $MONIKER --chain-id rhye-1
+      quicksilverd init $MONIKER --chain-id rhye-2
       ​
       # Download genesis and addrbook
       curl -Ls https://snapshots.kjnodes.com/quicksilver-testnet/genesis.json > $HOME/.quicksilverd/config/genesis.json
@@ -118,7 +118,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       --identity "YOUR_KEYBASE_ID" \
       --details "YOUR_DETAILS" \
       --website "YOUR_WEBSITE_URL" \
-      --chain-id rhye-1 \
+      --chain-id rhye-2 \
       --commission-rate 0.05 \
       --commission-max-rate 0.20 \
       --commission-max-change-rate 0.01 \
@@ -136,7 +136,7 @@ Setting up your validator node has never been so easy. Get your validator runnin
       --identity "YOUR_KEYBASE_ID" \
       --details "YOUR_DETAILS" \
       --website "YOUR_WEBSITE_URL" \
-      --chain-id rhye-1 \
+      --chain-id rhye-2 \
       --commission-rate 0.05 \
       --from wallet \
       --gas-adjustment 1.4 \
@@ -162,9 +162,9 @@ rm -rf $HOME/quicksilver
 ## 11. Token management
 ```bash
 # WITHDRAW REWARDS FROM ALL VALIDATORS
-quicksilverd tx distribution withdraw-all-rewards --from wallet --chain-id rhye-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
+quicksilverd tx distribution withdraw-all-rewards --from wallet --chain-id rhye-2 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
 # WITHDRAW COMMISSION AND REWARDS FROM YOUR VALIDATOR
-quicksilverd tx distribution withdraw-rewards $(quicksilverd keys show wallet --bech val -a) --commission --from wallet --chain-id rhye-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
+quicksilverd tx distribution withdraw-rewards $(quicksilverd keys show wallet --bech val -a) --commission --from wallet --chain-id rhye-2 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
 # Unjail Validator
-quicksilverd tx slashing unjail --from qcknode2 --chain-id rhye-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
+quicksilverd tx slashing unjail --from qcknode2 --chain-id rhye-2 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uqck -y
 ```
