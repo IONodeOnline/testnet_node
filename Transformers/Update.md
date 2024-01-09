@@ -15,7 +15,7 @@ Download here👉🏻https://fastcdn.uscloudmedia.com/transformers/formal/tfs_v0
 
 🎁 Attention here please: To encourage us to update the latest version as soon as possible. We prepared some rewards for you all. Due to the new version is mainly for the text issue, from this announcement to 24 hour later (⏰ Till Jua 10th 09:00 UTC), top 300 nodes who have v0.35.0 ready and finish staking and delegating will get 5TTOS rewards. We will share the list in 24h. Let's do it now :tothemoon: 
 
-Please update the latest version as soon as possible. And contact us if any problem :thanks~1:
+Please update the latest version as soon as possible. And contact us if any problem 
 
         cd transformersV2
         rm tfs_v0.34.0_de51692_testnet
