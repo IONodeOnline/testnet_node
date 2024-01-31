@@ -1,6 +1,7 @@
 # Testnet v0.7.6
 ## https://medium.com/@CESS_LAB/cess-cumulus-encrypted-storage-system-incentive-testnet-v0-7-6-will-launch-on-jan-31th-12aa95ad0aa9
 ## Doc: https://docs.cess.cloud/core/storage-miner/running
+## Explorer: https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Ftestnet-rpc0.cess.cloud%2Fws%2F#/explorer
 ## Install cess-nodeadm v0.5.3
 ```bash
 wget https://github.com/CESSProject/cess-nodeadm/archive/v0.5.3.tar.gz
