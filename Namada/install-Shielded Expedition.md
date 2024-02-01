@@ -44,9 +44,16 @@ sudo systemctl daemon-reload
 sudo systemctl enable namadad
 ```
 ## Join chain
+### 1.POST-GENESIS VALIDATOR
 ```bash
 export CHAIN_ID="shielded-expedition.b40d8e9055"
 namada client utils join-network --chain-id $CHAIN_ID
+```
+### 2.PRE-GENESIS Validators
+```bash
+export CHAIN_ID="shielded-expedition.b40d8e9055"
+export ALIAS="xxxxxxxx"
+namada client utils join-network --chain-id $CHAIN_ID --genesis-validator $ALIAS
 ```
 ## Start/stop/check logs
 ```bash
