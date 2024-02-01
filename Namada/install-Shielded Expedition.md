@@ -84,7 +84,7 @@ namadaw  list
 ```
 ### check balance
 ```bash
-namadac balance --token NAM --owner "${KEY_NAME}"
+namadac balance --token NAAN --owner "${KEY_NAME}"
 ```
 ### initialize validator: (Node must by synced)
 ```bash
