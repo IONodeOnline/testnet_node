@@ -1,17 +1,17 @@
-# chain ID is shielded-expedition.b40d8e9055
+# chain ID is shielded-expedition.88f17d1d14
 ## install namada
 ```bash
 mkdir namada
 cd namada
-wget https://github.com/anoma/namada/releases/download/v0.31.0/namada-v0.31.0-Linux-x86_64.tar.gz
+wget https://github.com/anoma/namada/releases/download/v0.31.1/namada-v0.31.1-Linux-x86_64.tar.gz
 wget https://github.com/cometbft/cometbft/releases/download/v0.37.2/cometbft_0.37.2_linux_amd64.tar.gz
-tar -xvf namada-v0.31.0-Linux-x86_64.tar.gz
+tar -xvf namada-v0.31.1-Linux-x86_64.tar.gz
 tar -xvf cometbft_0.37.2_linux_amd64.tar.gz
 sudo cp cometbft /usr/local/bin/
 sudo cp cometbft /usr/bin/
-sudo cp namada-v0.31.0-Linux-x86_64/namada* /usr/local/bin/
-sudo cp namada-v0.31.0-Linux-x86_64/namada* /usr/bin/
-sudo cp namada-v0.31.0-Linux-x86_64/namada* /usr/local/sbin/
+sudo cp namada-v0.31.1-Linux-x86_64/namada* /usr/local/bin/
+sudo cp namada-v0.31.1-Linux-x86_64/namada* /usr/bin/
+sudo cp namada-v0.31.1-Linux-x86_64/namada* /usr/local/sbin/
 ```
 ## Create service
 ```bash
@@ -46,12 +46,12 @@ sudo systemctl enable namadad
 ## Join chain
 ### 1.POST-GENESIS VALIDATOR
 ```bash
-export CHAIN_ID="shielded-expedition.b40d8e9055"
+export CHAIN_ID="shielded-expedition.88f17d1d14"
 namada client utils join-network --chain-id $CHAIN_ID
 ```
 ### 2.PRE-GENESIS Validators
 ```bash
-export CHAIN_ID="shielded-expedition.b40d8e9055"
+export CHAIN_ID="shielded-expedition.88f17d1d14"
 export ALIAS="IONode Online"
 namada client utils join-network --chain-id $CHAIN_ID --genesis-validator "${ALIAS}"
 ```
