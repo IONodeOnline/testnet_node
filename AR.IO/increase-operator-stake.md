@@ -6,6 +6,7 @@ https://dev.arns.app/v1/contract/bLAgYxAdX2Ry-nt6aH2ixgvJXbpsEYm28NgJgyqfs-U/bal
 => "balance": < numbers >
 ## 2. Edit file increase-operator-stake.ts with update => const qty = < number of balance >
 ```bash
+git clone https://github.com/ar-io/testnet-contract
 cd testnet-contract
 nano tools/increase-operator-stake.ts
 ```
