@@ -1,12 +1,12 @@
 # SIDE PROTOCOL
 |   Chain ID	 | Latest Version Tag| Custom Port|
 |--------------|-------------------|------------|
-| side-testnet-1|      0.0.1-75-gbd63479      |     130    |
+| side-testnet-2|      0.0.1-75-gbd63479      |     130    |
 
-https://explorer.side.exchange/
+https://explorer.side.exchange/testnet
 
 ```bash
-  chain_id="side-testnet-1"
+  chain_id="side-testnet-2"
   CUSTOM_PORT=130
   name_all=sided
 ```
@@ -30,19 +30,19 @@ cd $HOME
 rm -rf sidechain
 git clone -b dev https://github.com/sideprotocol/sidechain.git
 cd sidechain
-git checkout 0.0.1-75-gbd63479
+git checkout v0.6.0
 
 # Build binaries
 make build
 
 # Prepare binaries for Cosmovisor
-mkdir -p $HOME/.sidechain/cosmovisor/genesis/bin
-mv build/sided $HOME/.sidechain/cosmovisor/genesis/bin/
+mkdir -p $HOME/.side/cosmovisor/genesis/bin
+mv build/sided $HOME/.side/cosmovisor/genesis/bin/
 rm -rf build
 
 # Create application symlinks
-sudo ln -s $HOME/.sidechain/cosmovisor/genesis $HOME/.sidechain/cosmovisor/current -f
-sudo ln -s $HOME/.sidechain/cosmovisor/current/bin/sided /usr/local/bin/sided -f
+sudo ln -s $HOME/.side/cosmovisor/genesis $HOME/.side/cosmovisor/current -f
+sudo ln -s $HOME/.side/cosmovisor/current/bin/sided /usr/local/bin/sided -f
 ```
 ## Install Cosmovisor and create a service
 ```bash
@@ -61,10 +61,10 @@ ExecStart=$(which cosmovisor) run start
 Restart=on-failure
 RestartSec=10
 LimitNOFILE=65535
-Environment="DAEMON_HOME=$HOME/.sidechain"
+Environment="DAEMON_HOME=$HOME/.side"
 Environment="DAEMON_NAME=sided"
 Environment="UNSAFE_SKIP_BACKUP=true"
-Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$HOME/.sidechain/cosmovisor/current/bin"
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$HOME/.side/cosmovisor/current/bin"
 
 [Install]
 WantedBy=multi-user.target
@@ -82,16 +82,16 @@ MONIKER="YOUR_MONIKER_GOES_HERE"
 $name_all init $MONIKER --chain-id $chain_id
 
 # Download genesis and addrbook
-wget -O $HOME/.sidechain/config/genesis.json https://testnet-files.itrocket.net/side/genesis.json
-wget -O $HOME/.sidechain/config/addrbook.json https://testnet-files.itrocket.net/side/addrbook.json
+wget -O $HOME/.side/config/genesis.json https://testnet-files.itrocket.net/side/genesis.json
+wget -O $HOME/.side/config/addrbook.json https://testnet-files.itrocket.net/side/addrbook.json
 
 # Set minimum gas price
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.005uside"|g' $HOME/.sidechain/config/app.toml
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.005uside"|g' $HOME/.side/config/app.toml
 
 # Add seeds & peers (option)
 SEEDS="9c14080752bdfa33f4624f83cd155e2d3976e303@side-testnet-seed.itrocket.net:45656"
 PEERS="bbbf623474e377664673bde3256fc35a36ba0df1@side-testnet-peer.itrocket.net:45656,2ca1a2f1170df5ecb55dcae5e976d6dbb85e3b6b@65.109.92.148:61456,ad731aefa7582d59b4de7c9063e87dc90d98fa8f@78.46.45.174:12656,5e0b5f26e4c069fbcaac1ae4b22aba151e463a52@65.108.79.241:60856,cb0c64e85255d127d5e9c16f7db9c995b3600c37@152.228.208.164:26656,fad59a438051161be332714505e86a5da4920bc4@109.123.242.217:21306,09ea56a225a4c3e525ae4cfc1311157dbcbe33c9@141.95.65.26:24966,00e0d0a39d56bb945de4d4179ae0bd49679cac65@65.108.206.118:46656,08f006100a637b2fea09eab6c124949fe437af3e@37.27.69.161:36656,db165a039236165c8c1225c1c793320593ce2b35@65.109.68.87:21656,91b6c3d622e28752c428091ca47eb463b63d14de@162.55.4.42:11356"
-sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.sidechain/config/config.toml
+sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.side/config/config.toml
 
 # Set pruning
 sed -i \
@@ -99,14 +99,14 @@ sed -i \
   -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|' \
   -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
   -e 's|^pruning-interval *=.*|pruning-interval = "10"|' \
-  $HOME/.sidechain/config/app.toml
+  $HOME/.side/config/app.toml
 
 # Disable indexer
-sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.sidechain/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.side/config/config.toml
 
 # Set custom ports
-sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CUSTOM_PORT}58\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${CUSTOM_PORT}57\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CUSTOM_PORT}60\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${CUSTOM_PORT}56\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CUSTOM_PORT}66\"%" $HOME/.sidechain/config/config.toml
-sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${CUSTOM_PORT}17\"%; s%^address = \":8080\"%address = \":${CUSTOM_PORT}80\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${CUSTOM_PORT}90\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${CUSTOM_PORT}91\"%" $HOME/.sidechain/config/app.toml
+sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CUSTOM_PORT}58\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${CUSTOM_PORT}57\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CUSTOM_PORT}60\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${CUSTOM_PORT}56\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CUSTOM_PORT}66\"%" $HOME/.side/config/config.toml
+sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${CUSTOM_PORT}17\"%; s%^address = \":8080\"%address = \":${CUSTOM_PORT}80\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${CUSTOM_PORT}90\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${CUSTOM_PORT}91\"%" $HOME/.side/config/app.toml
 
 ```
 ## Start service and check the logs 
@@ -166,7 +166,7 @@ $name_all tx staking edit-validator \
 ```
 ## RESET CHAIN DATA
 ```bash
-$name_all tendermint unsafe-reset-all --keep-addr-book --home $HOME/.sidechain --keep-addr-book
+$name_all tendermint unsafe-reset-all --keep-addr-book --home $HOME/.side --keep-addr-book
 ```
 ## REMOVE NODE: Make sure you have backed up your priv_validator_key.json
 ```bash
@@ -176,8 +176,8 @@ sudo systemctl disable $name_all
 sudo rm /etc/systemd/system/$name_all
 sudo systemctl daemon-reload
 rm -f $(which sided)
-rm -rf $HOME/.sidechain
-rm -rf $HOME/sidechain
+rm -rf $HOME/.side
+rm -rf $HOME/side
 ```
 ## Token management
 ```bash
