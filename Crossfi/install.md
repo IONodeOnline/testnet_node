@@ -104,8 +104,8 @@ sudo systemctl daemon-reload
 sudo systemctl enable $name_all
 sudo systemctl start $name_all && sudo journalctl -u $name_all -f --no-hostname -o cat
 # GET SYNC INFO
-quicksilverd status 2>&1 | jq .SyncInfo
-curl -s localhost:${CUSTOM_PORT}/status | jq .result.sync_info
+crossfid status 2>&1 | jq .SyncInfo
+curl -s localhost:${CUSTOM_PORT}57/status | jq .result.sync_info
 ```
 ## Key management
 ```bash
@@ -121,7 +121,7 @@ $name_all keys export wallet
 ## CREATE NEW VALIDATOR
 ```bash
 $name_all tx staking create-validator \
---amount 1000000mpx \
+--amount 1000000000000000000mpx \
 --pubkey $(crossfid tendermint show-validator) \
 --moniker "YOUR_MONIKER_NAME" \
 --identity "YOUR_KEYBASE_ID" \
@@ -164,7 +164,7 @@ sudo systemctl stop $name_all
 sudo systemctl disable $name_all
 sudo rm /etc/systemd/system/$name_all
 sudo systemctl daemon-reload
-rm -f $(which quicksilverd)
+rm -f $(which crossfid)
 rm -rf $HOME/.mineplex-chain
 rm -rf $HOME/testnet
 ```
@@ -173,7 +173,9 @@ rm -rf $HOME/testnet
 # WITHDRAW REWARDS FROM ALL VALIDATORS
 $name_all tx distribution withdraw-all-rewards --from wallet --chain-id $chain_id --gas-adjustment 1.5 --gas auto --gas-prices 10000000000000mpx -y
 # WITHDRAW COMMISSION AND REWARDS FROM YOUR VALIDATOR
-$name_all tx distribution withdraw-rewards $(quicksilverd keys show wallet --bech val -a) --commission --from wallet --chain-id $chain_id --gas-adjustment 1.5 --gas auto --gas-prices 10000000000000mpx -y
+$name_all tx distribution withdraw-rewards $(crossfid keys show wallet --bech val -a) --commission --from wallet --chain-id $chain_id --gas-adjustment 1.5 --gas auto --gas-prices 10000000000000mpx -y
 # Unjail Validator
 $name_all tx slashing unjail --from wallet --chain-id $chain_id --gas-adjustment 1.5 --gas auto --gas-prices 10000000000000mpx -y
+# Delegate to other validator
+$name_all tx staking delegate mxvaloper14rrp3vakgwgax35x9y8v42qpd0lw6ufpes5lfj 1000000000000000000000000mpx --from wallet --chain-id $chain_id --gas-prices 10000000000000mpx  --gas-adjustment 1.5 --gas "auto" -y 
 ```
