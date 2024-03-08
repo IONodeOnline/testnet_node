@@ -95,9 +95,11 @@ sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${CUSTO
 
 ```
 # Download Latest Snapshot
+```bash
 curl -L https://snapshots.indonode.net/crossfi-t/crossfi-t-latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.mineplex-chain
-[[ -f $HOME/.mineplex-chain/data/upgrade-info.json ]] && cp $HOME/.mineplex-chain/data/upgrade-info.json $HOME/.mineplex-chain/cosmovisor/genesis/upgrade-info.json
 
+[[ -f $HOME/.mineplex-chain/data/upgrade-info.json ]] && cp $HOME/.mineplex-chain/data/upgrade-info.json $HOME/.mineplex-chain/cosmovisor/genesis/upgrade-info.json
+```
 ## Start service and check the logs 
 ```bash
 sudo systemctl daemon-reload
