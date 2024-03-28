@@ -182,11 +182,11 @@ rm -rf $HOME/side
 ## Token management
 ```bash
 # Delegate
-$name tx staking delegate sidevaloper1e6603g3hukd9lad90vc3tgxetg949d4q2nhguf 98000000uside --from wallet --chain-id side-testnet-1 --gas auto --fees 1300uside -y
+$name_all tx staking delegate bcvaloper1qj5dhprmlr7nmza4edjnm0uh0dx7tmw2md5723 98000000uside --from wallet --chain-id $chain_id --gas-adjustment 1.4 --gas auto --fees 1300uside -y
 # WITHDRAW REWARDS FROM ALL VALIDATORS
 $name_all tx distribution withdraw-all-rewards --from wallet --chain-id $chain_id --gas-adjustment 1.4 --gas auto --fees 1300uside -y
 # WITHDRAW COMMISSION AND REWARDS FROM YOUR VALIDATOR
-$name_all tx distribution withdraw-rewards $(quicksilverd keys show wallet --bech val -a) --commission --from wallet --chain-id $chain_id --gas-adjustment 1.4 --gas auto --fees 1300uside -y
+$name_all tx distribution withdraw-rewards $(sided keys show wallet --bech val -a) --commission --from wallet --chain-id $chain_id --gas-adjustment 1.4 --gas auto --fees 1300uside -y
 # Unjail Validator
 $name_all tx slashing unjail --from wallet --chain-id $chain_id --gas-adjustment 1.4 --gas auto --fees 1300uside -y
 ```
