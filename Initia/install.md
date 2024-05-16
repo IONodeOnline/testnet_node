@@ -71,9 +71,10 @@ EOF
 ## Initialize the node 
 ```bash
 # Set node configuration
-$name_all config chain-id $chain_id
-$name_all config keyring-backend test
-$name_all config node tcp://localhost:${CUSTOM_PORT}57
+initiad config set client chain-id initiation-1
+initiad config set client keyring-backend test
+initiad config set client node tcp://localhost:17957
+
 
 # Initialize the node
 MONIKER="YOUR_MONIKER_GOES_HERE"
