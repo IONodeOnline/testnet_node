@@ -93,9 +93,10 @@ sed -i \
   -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|' \
   -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
   -e 's|^pruning-interval *=.*|pruning-interval = "10"|' \
-  $HOME/.mineplex-chain/config/app.toml
+    $HOME/.initia/config/app.toml
 # Disable indexer
-sed -i -e 's|^indexer *=.*|indexer = "null"|' $HOME/.mineplex-chain/config/config.toml
+sed -i -e 's|^indexer *=.*|indexer = "null"|'   $HOME/.initia/config/app.toml
+
 
 # Set custom ports
 sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CUSTOM_PORT}58\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${CUSTOM_PORT}57\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CUSTOM_PORT}60\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${CUSTOM_PORT}56\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CUSTOM_PORT}66\"%" $HOME/.mineplex-chain/config/config.toml
